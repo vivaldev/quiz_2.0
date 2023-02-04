@@ -12,6 +12,18 @@ const quizData = [
   // more questions here
 ];
 
+const PlayerInfo = ({ handleChange, handleSubmit }) => {
+  return (
+    <>
+      <Heading as="h3" color="green.600">
+        What's your name?
+      </Heading>
+      <Input type="text" w="60%" m={5} bg="red.100" onChange={handleChange} />
+      <Button onClick={handleSubmit}>Start Quiz!</Button>
+    </>
+  );
+};
+
 const initialState = {
   username: "",
   hasStarted: false,
@@ -88,11 +100,9 @@ const App = () => {
         border="5px double wheat"
         mt="5vh"
       >
-        <Heading as="h3" color="green.600">
-          What's your name?
-        </Heading>
-        <Input type="text" w="60%" m={5} bg="red.100" onChange={handleChange} />
-        <Button onClick={handleSubmit}>Start Quiz!</Button>
+        {!state.hasStarted ? (
+          <PlayerInfo handleChange={handleChange} handleSubmit={handleSubmit} />
+        ) : null}
       </Flex>
     </Flex>
   );
