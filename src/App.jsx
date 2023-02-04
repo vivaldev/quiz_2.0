@@ -2,7 +2,7 @@
 import React from "react";
 import { useState, useReducer, useRef } from "react";
 import { Flex, Heading, Text, Input, Button } from "@chakra-ui/react";
-
+import StartGame from "./components/StartGame";
 const quizData = [
   {
     question: "What is the capital of Finland?",
@@ -102,7 +102,9 @@ const App = () => {
       >
         {!state.hasStarted ? (
           <PlayerInfo handleChange={handleChange} handleSubmit={handleSubmit} />
-        ) : null}
+        ) : (
+          <StartGame />
+        )}
       </Flex>
     </Flex>
   );
