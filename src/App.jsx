@@ -1,6 +1,7 @@
+// @ts-nocheck
 import React from "react";
 import { useState, useReducer, useRef } from "react";
-import { Flex, Heading, Text, Input } from "@chakra-ui/react";
+import { Flex, Heading, Text, Input, Button } from "@chakra-ui/react";
 
 const quizData = [
   {
@@ -12,7 +13,8 @@ const quizData = [
 ];
 
 const initialState = {
-  playerName: "",
+  username: "",
+  hasStarted: false,
   questions: quizData,
   currentQuestion: 0,
   score: 0,
@@ -20,10 +22,16 @@ const initialState = {
 
 function quizReducer(state, action) {
   switch (action.type) {
-    case "PLAYER_NAME":
+    case "updateUsername":
       return {
         ...state,
-        playerName: action.payload,
+        username: action.payload,
+      };
+
+    case "startNewGame":
+      return {
+        ...state,
+        hasStarted: true,
       };
 
     case "NEXT_QUESTION":
@@ -44,13 +52,28 @@ function quizReducer(state, action) {
 const App = () => {
   const [state, dispatch] = useReducer(quizReducer, initialState);
   const answeInputRef = useRef(null);
+
+  console.log(state);
+  const handleChange = (e) => {
+    dispatch({
+      type: "updateUsername",
+      payload: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: "startNewGame",
+    });
+  };
+
   return (
     <Flex
       w="100vw"
       h="100vh"
       bg="red.200"
       align="center"
-      e
       flexDirection="column"
     >
       <Heading as="h1" color="whiteAlpha.900" mt="5vh">
@@ -68,7 +91,8 @@ const App = () => {
         <Heading as="h3" color="green.600">
           What's your name?
         </Heading>
-        <Input type="text" w="60%" m={5} bg="red.100" />
+        <Input type="text" w="60%" m={5} bg="red.100" onChange={handleChange} />
+        <Button onClick={handleSubmit}>Start Quiz!</Button>
       </Flex>
     </Flex>
   );
